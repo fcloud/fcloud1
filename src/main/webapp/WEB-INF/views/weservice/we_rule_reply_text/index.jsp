@@ -1,32 +1,23 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="template" uri="http://www.fcloud.com/taglib/template"%>
-<link rel="stylesheet" href="/public/css/themes/base/jquery.ui.all.css" />
-<link rel="stylesheet" href="/public/css/wecss/we_list.css" />
+<%@ page contentType="text/html;charset=UTF-8" language="java"%>
+<%@ include file="/WEB-INF/views/index/index_list_public_top.jsp"%>
 
-<template:template extend="/public/index_tpl.jsp">
-	<template:block name="title">
-        Demo Main Index
-    </template:block>
-
-	<template:block name="body">
-		<template:super />
-		<div data-role="header" data-theme="a">
-			<span class="ui-title" />
-
-			<div class="ui-btn-right">
-				<a
-					href="<%=request.getContextPath()%>/weservice/we_rule_reply_text/create"
-					target="_blank">新增</a>
-			</div>
-		</div>
-		<div id="list-contain">
-			<table>
-				<tr class="ui-widget-header">
-					<th>文本内容</th>
-					<th>操作</th>
-				</tr>
+<div class="col-xs-12 col-sm-9">
+	<p class="pull-left visible-xs">
+		<button type="button" class="btn btn-primary btn-xs"
+			data-toggle="offcanvas">菜单</button>
+	</p>
+	<div class="row">
+		<ol class="breadcrumb">
+			<li><a href="#">多图文</a></li>
+		</ol>
+		<div class="table-responsive">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>文本内容</th>
+						<th>操作</th>
+					</tr>
+				</thead>
 				<tbody>
 					<c:forEach items="${page.content}" var="m">
 						<tr>
@@ -42,9 +33,8 @@
 				</tbody>
 			</table>
 		</div>
-        总共: ${page.total}, 当前页: ${page.page}, 每页: ${page.size}
-    </template:block>
-</template:template>
-<link type="text/css"
-	href="/public/jquerymobile/themes/default/jquery.mobile-1.3.2.min.css"
-	rel="stylesheet" />
+	</div>
+	<!--/row-->
+</div>
+<!--/span-->
+<%@ include file="/WEB-INF/views/index/index_list_down.jsp"%>

@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ include file="/WEB-INF/views/index/index_list_public_top.jsp"%>
-
+<%@ include file="index_list_back_top.jsp"%>
 			<div class="col-xs-12 col-sm-9">
 				<p class="pull-left visible-xs">
 					<button type="button" class="btn btn-primary btn-xs"
@@ -8,5 +7,5 @@
 				</p>
 				<!--/row-->
 			</div>
-		<!--/row-->
-<%@ include file="/WEB-INF/views/index/index_list_down.jsp"%>
+			
+<%@ include file="index_list_down.jsp"%>
