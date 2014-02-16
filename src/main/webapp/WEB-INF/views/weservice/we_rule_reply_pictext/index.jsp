@@ -8,7 +8,7 @@
 	</p>
 	<div class="row">
 		<ol class="breadcrumb">
-			<li><a href="#">公众号</a></li>
+			<li><a href="#">单图文</a></li>
 		</ol>
 		<div class="table-responsive">
 			<table class="table table-bordered">

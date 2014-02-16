@@ -11,8 +11,8 @@
 				<div class="well sidebar-nav">
 					<ul class="nav">
 						<li>用户设置</li>
-						<li class="active"><a href="#">用户列表</a></li>
-						<li><a href="#">模块路径</a></li>
+						<li class="active"><a href='<%=request.getContextPath()%>/wechat/user'>用户列表</a></li>
+						<li><a href="<%=request.getContextPath()%>/wechat/auth/module_access">模块路径</a></li>
 					</ul>
 				</div>
 				<!--/.well -->

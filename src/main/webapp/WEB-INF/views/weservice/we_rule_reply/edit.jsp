@@ -11,7 +11,7 @@
 	</p>
 	<div class="row">
 		<ol class="breadcrumb">
-			<li><a href="#">公众号</a></li>
+			<li><a href="#">自定义规则</a></li>
 		</ol>
 		<div class="table-responsive">
 			<table id="replay_table" class="table table-bordered">
