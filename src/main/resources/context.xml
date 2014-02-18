@@ -68,4 +68,32 @@
 
     <!-- 模块扫描 -->
     <context:component-scan base-package="com.fcloud" />
+
+    <bean id="weUserLogMessageListener"
+	    class="com.fcloud.weservice.messagelog.listener.WeUserLogMessageListener">
+	    <property name="services">
+	    	<map>
+	    		<entry key="text" value-ref="weUserLogTextRepository" />
+	    		<entry key="image" value-ref="weUserLogImageRepository" />
+	    		<entry key="link" value-ref="weUserLogLinkRepository" />
+	    		<entry key="location" value-ref="weUserLogLocationRepository" />
+	    		<entry key="video" value-ref="weUserLogVideoRepository" />
+	    		<entry key="voice" value-ref="weUserLogVoiceRepository" />
+	    		<entry key="event" value-ref="weUserEventBaseRepository" />
+	    	</map>
+	    </property>
+	</bean>
+	
+	<bean id="weUserEventBaseRepository"
+	    class="com.fcloud.weservice.messagelog.repository.WeUserEventBaseRepository">
+	    <property name="services">
+	    	<map>
+	    		<entry key="subscribe" value-ref="weUserEventRepository" />
+	    		<entry key="unsubscribe" value-ref="weUserEventRepository" />
+	    		<entry key="scan" value-ref="weUserEventRepository" />
+	    		<entry key="location" value-ref="weUserLocationEventRepository" />
+	    		<entry key="click" value-ref="weUserClickEventRepository" />
+	    	</map>
+	    </property>
+	</bean>
 </beans>
