@@ -12,13 +12,13 @@ import com.fcloud.weservice.messagelog.event.WeUserLogMessageEvent;
 public class WeUserLogMessageListener implements
 		ApplicationListener<WeUserLogMessageEvent> {
 
-	private Map<String, IReceiveUserLogService> service = new HashMap<String, IReceiveUserLogService>();
+	private Map<String, IReceiveUserLogService> services = new HashMap<String, IReceiveUserLogService>();
 
 	@Override
 	public void onApplicationEvent(WeUserLogMessageEvent event) {
 		ReqBaseMessage rbMessage = event.getRbMessage();
 		if(rbMessage != null){
-			IReceiveUserLogService logService = service.get(rbMessage.getMsgType());
+			IReceiveUserLogService logService = services.get(rbMessage.getMsgType());
 			if(logService != null){
 				try {
 					logService.dealLog(rbMessage);
@@ -29,12 +29,12 @@ public class WeUserLogMessageListener implements
 		}
 	}
 
-	public Map<String, IReceiveUserLogService> getService() {
-		return service;
+	public Map<String, IReceiveUserLogService> getServices() {
+		return services;
 	}
 
-	public void setService(Map<String, IReceiveUserLogService> service) {
-		this.service = service;
+	public void setServices(Map<String, IReceiveUserLogService> services) {
+		this.services = services;
 	}
 
 }

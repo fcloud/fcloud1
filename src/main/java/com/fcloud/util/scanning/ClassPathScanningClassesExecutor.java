@@ -21,8 +21,6 @@ import org.springframework.core.type.filter.TypeFilter;
 import org.springframework.util.ClassUtils;
 import org.springframework.util.SystemPropertyUtils;
 
-import com.fcloud.util.WebContext;
-
 // TODO 待重构为更通用扫描工具
 /**
  * 包扫描工具类，辅助包扫描相关功能实现
@@ -93,7 +91,7 @@ public class ClassPathScanningClassesExecutor {
             }
             
             // fix
-            WebContext.read();
+            //WebContext.read();
         }
         catch (ClassNotFoundException ex) {
             throw new RuntimeException("Class load failure classpath scanning", ex);

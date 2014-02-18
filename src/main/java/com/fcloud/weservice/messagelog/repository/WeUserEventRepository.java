@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Repository;
 
 import com.fcloud.core.repository.support.SimpleRepository;
+import com.fcloud.util.IdGenerator;
 import com.fcloud.wemessage.messageType.ReqBaseMessage;
 import com.fcloud.wemessage.messageType.req.event.ConcernsAndCancelEvent;
 import com.fcloud.wemessage.messageType.req.event.DimensionalCodeScanEvent;
@@ -32,6 +33,7 @@ public class WeUserEventRepository extends SimpleRepository<WeUserEvent>
 		if (rbMessage instanceof ConcernsAndCancelEvent) {
 			ConcernsAndCancelEvent message = (ConcernsAndCancelEvent) rbMessage;
 			WeUserEvent log = new WeUserEvent();
+			log.setId(IdGenerator.newId());
 			log.setFdCode(message.getFromUserName());
 			log.setFdOpenid(message.getToUserName());
 			log.setFdCreatetime(new Date());
