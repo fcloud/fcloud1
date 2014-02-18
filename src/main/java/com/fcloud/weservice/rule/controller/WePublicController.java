@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -19,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.fcloud.core.controller.ActionController;
 import com.fcloud.util.IdGenerator;
+import com.fcloud.util.StringUtil;
 import com.fcloud.wechat.auth.model.SessionUser;
 import com.fcloud.weservice.rule.model.WePublic;
 import com.fcloud.weservice.rule.repository.WePublicRepository;
@@ -33,12 +35,17 @@ import com.fcloud.weservice.rule.repository.WePublicRepository;
 @Controller
 @RequestMapping("/weservice/we_public")
 public class WePublicController extends ActionController<WePublic,WePublicRepository> {
-
+	
+	@Value("#{fcloud['fcloudhost']}")
+    private String fcloudhost;
+	
     @Override
     public ModelAndView create(WebRequest request) {
         WePublic model = createModel();
         model.setFdIntToken(IdGenerator.newId());
-        model.setFdIntUrl("/api/message/"+model.getId());
+        String pathUrl = fcloudhost;
+		pathUrl = StringUtil.linkString(pathUrl, "/", request.getContextPath());
+        model.setFdIntUrl(pathUrl+"/api/message/"+model.getId());
         return render("edit", model);
     }
 
