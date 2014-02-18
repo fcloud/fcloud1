@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+            http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context
+            http://www.springframework.org/schema/context/spring-context-3.2.xsd
+            http://www.springframework.org/schema/tx
+            http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+            http://www.springframework.org/schema/mvc
+            http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+            http://www.springframework.org/schema/util
+            http://www.springframework.org/schema/util/spring-util-3.2.xsd">
+
+    <bean id="weUserLogMessageListener"
+	    class="com.fcloud.weservice.messagelog.listener.WeUserLogMessageListener">
+	    <property name="">
+	    	<map>
+	    		<entry key="text" value-ref="weUserLogTextRepository" />
+	    		<entry key="image" value-ref="weUserLogImageRepository" />
+	    		<entry key="link" value-ref="weUserLogLinkRepository" />
+	    		<entry key="location" value-ref="weUserLogLocationRepository" />
+	    		<entry key="video" value-ref="weUserLogVideoRepository" />
+	    		<entry key="voice" value-ref="weUserLogVoiceRepository" />
+	    		<entry key="event" value-ref="weUserEventBaseRepository" />
+	    	</map>
+	    </property>
+	</bean>
+	
+	<bean id="weUserEventBaseRepository"
+	    class="com.fcloud.weservice.messagelog.listener.WeUserEventBaseRepository">
+	    <property name="">
+	    	<map>
+	    		<entry key="subscribe" value-ref="weUserEventRepository" />
+	    		<entry key="unsubscribe" value-ref="weUserEventRepository" />
+	    		<entry key="subscribe" value-ref="weUserEventRepository" />
+	    		<entry key="scan" value-ref="weUserScanEventRepository" />
+	    		<entry key="location" value-ref="weUserLocationEventRepository" />
+	    		<entry key="click" value-ref="weUserClickEventRepository" />
+	    	</map>
+	    </property>
+	</bean>
+</beans>
