@@ -1,13 +1,13 @@
 package com.fcloud.wemessage.service.impl;
 
 
-import com.fcloud.wemessage.messageType.ReqBaseMessage;
-import com.fcloud.weservice.model.WePublic;
-import com.fcloud.weservice.repository.WePublicRepository;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
+
+import com.fcloud.wemessage.messageType.ReqBaseMessage;
+import com.fcloud.weservice.rule.model.WePublic;
+import com.fcloud.weservice.rule.repository.WePublicRepository;
 
 @Service
 public class LweChatService {

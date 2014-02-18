@@ -1,12 +1,13 @@
 package com.fcloud.wemessage.controller;
 
-import com.fcloud.util.MessageUtils;
-import com.fcloud.util.StringUtil;
-import com.fcloud.wechat.basic.util.EncryptUtils;
-import com.fcloud.wemessage.messageType.ReqBaseMessage;
-import com.fcloud.wemessage.service.impl.LweChatService;
-import com.fcloud.weservice.model.WePublic;
-import com.fcloud.weservice.repository.WePublicRepository;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,12 +19,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.Arrays;
+import com.fcloud.util.MessageUtils;
+import com.fcloud.util.StringUtil;
+import com.fcloud.wechat.basic.util.EncryptUtils;
+import com.fcloud.wemessage.messageType.ReqBaseMessage;
+import com.fcloud.wemessage.service.impl.LweChatService;
+import com.fcloud.weservice.messagelog.event.WeUserLogMessageEvent;
+import com.fcloud.weservice.rule.model.WePublic;
+import com.fcloud.weservice.rule.repository.WePublicRepository;
 
 
 /**
@@ -71,7 +74,7 @@ public class CoreController implements ApplicationContextAware{
 			response.setCharacterEncoding("UTF-8");
 			
 			//通知
-			//applicationContext.publishEvent(new RequestEvent(rbMessage,this,id,request,response));
+			applicationContext.publishEvent(new WeUserLogMessageEvent(this,rbMessage));
 			String pathUrl = fcloudhost;
     		if(request.getLocalPort() != 80){
     			pathUrl = StringUtil.linkString(pathUrl, ":", String.valueOf(request.getLocalPort()));
