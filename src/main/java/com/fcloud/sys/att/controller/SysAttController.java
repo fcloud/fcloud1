@@ -32,10 +32,10 @@ import com.fcloud.util.DateUtil;
 import com.fcloud.util.FileOptUtil;
 import com.fcloud.util.IdGenerator;
 import com.fcloud.util.StringUtil;
-import com.fcloud.weservice.model.WeRuleReplyPictext;
-import com.fcloud.weservice.model.WeRuleReplyPictextson;
-import com.fcloud.weservice.repository.WeRuleReplyPictextRepository;
-import com.fcloud.weservice.repository.WeRuleReplyPictextsonRepository;
+import com.fcloud.weservice.rule.model.WeRuleReplyPictext;
+import com.fcloud.weservice.rule.model.WeRuleReplyPictextson;
+import com.fcloud.weservice.rule.repository.WeRuleReplyPictextRepository;
+import com.fcloud.weservice.rule.repository.WeRuleReplyPictextsonRepository;
 
 @Controller
 @RequestMapping("/sys/att")
