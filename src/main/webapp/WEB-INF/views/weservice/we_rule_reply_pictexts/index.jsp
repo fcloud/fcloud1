@@ -10,6 +10,11 @@
 		<ol class="breadcrumb">
 			<li><a href="#">多图文</a></li>
 		</ol>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav navbar-right">
+				<li><a href="<%=request.getContextPath()%>/weservice/we_rule_reply_pictexts/add?type=2" target="_blank">新建</a></li>
+			</ul>
+		</div>
 		<div class="table-responsive">
 			<table class="table table-bordered">
 				<thead>

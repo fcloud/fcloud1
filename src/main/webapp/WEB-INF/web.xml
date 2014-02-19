@@ -10,10 +10,6 @@
             classpath*:context.xml
         </param-value>
     </context-param>
-    <context-param>
-        <param-name>contextClass</param-name>
-        <param-value>com.fcloud.util.WebContext</param-value>
-    </context-param>
 
     <filter>
         <filter-name>encoding</filter-name>
