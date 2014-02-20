@@ -3,17 +3,21 @@
  */
 package com.fcloud.wechat.auth.model;
 
+import java.io.Serializable;
+
 /**
  * @author ruben fu
  *
  */
-public class SessionUser {
+public class SessionUser implements Serializable {
+
+    private static final long serialVersionUID = -8697617245229493021L;
 	
 	public static final String SESSION_KEY = "SessionUser";
 	
 	private static final ThreadLocal<SessionUser> users = new ThreadLocal<SessionUser>();
-	
-	public static SessionUser get() {
+
+    public static SessionUser get() {
 		return users.get();
 	}
 	
