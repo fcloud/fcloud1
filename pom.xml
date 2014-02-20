@@ -191,6 +191,14 @@
 
     </dependencies>
     
+    <!-- ACE -->
+    <repositories>
+        <repository>
+            <id>acesdk-repository</id>
+            <name>Ace Sdk Repository</name>
+            <url>http://acesdk.github.io/repo</url>
+        </repository>
+    </repositories>
     
     
     <!-- BAE begin 
