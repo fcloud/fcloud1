@@ -47,13 +47,21 @@ public class TableCreator {
         if ("create".equalsIgnoreCase(createType) || "create-drop".equalsIgnoreCase(createType)) {
             for (Class<?> clz : createTables) {
                 logger.info("create class table :" + clz);
-                TableUtils.createTable(connectionSource, clz);
+                try {
+                    TableUtils.createTable(connectionSource, clz);
+                } catch (Exception e) {
+                    logger.error("create class table :" + clz, e);
+                }
             }
         }
         if ("update".equalsIgnoreCase(createType)) {
             for (Class<?> clz : createTables) {
                 logger.info("create class table if not exists :" + clz + " table!");
-                TableUtils.createTableIfNotExists(connectionSource, clz);
+                try {
+                    TableUtils.createTableIfNotExists(connectionSource, clz);
+                } catch (Exception e) {
+                    logger.error("create class table if not exists :" + clz + " table!", e);
+                }
             }
         }
     }
