@@ -1,6 +1,7 @@
 package com.fcloud.wechat.user.model;
 
 import com.fcloud.core.model.NamedEntity;
+import com.fcloud.core.repository.TableOrder;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -8,6 +9,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * @author Ruben Fu
  */
 @SuppressWarnings("serial")
+@TableOrder(8)
 @DatabaseTable(tableName = "we_users")
 public class User extends NamedEntity {
 

@@ -1,6 +1,7 @@
 package com.fcloud.weservice.rule.model;
 
 import com.fcloud.core.model.Entity;
+import com.fcloud.core.repository.TableOrder;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -10,6 +11,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * @author
  * @version 1.0 2013-11-12
  */
+@TableOrder(1002)
 @DatabaseTable(tableName = "we_rule_reply_pictextson")
 public class WeRuleReplyPictextson extends Entity {
 

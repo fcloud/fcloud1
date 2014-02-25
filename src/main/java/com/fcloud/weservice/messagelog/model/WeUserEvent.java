@@ -1,10 +1,8 @@
 package com.fcloud.weservice.messagelog.model;
 
-import com.fcloud.core.model.Entity;
+import com.fcloud.core.repository.TableOrder;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
-
-import java.util.Date;
 
 /**
  * 用户事件消息
@@ -13,6 +11,7 @@ import java.util.Date;
  * @version 1.0 2013-11-12
  */
 @DatabaseTable(tableName = "we_user_event")
+@TableOrder(1000)
 public class WeUserEvent extends WeUserEventBase {
 	@DatabaseField(columnName = "fd_event")
 	private String fdEvent;

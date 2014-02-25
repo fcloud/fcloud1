@@ -1,10 +1,10 @@
 package com.fcloud.wechat.app.cihezh.model;
 
-import org.apache.commons.lang.StringUtils;
-
 import com.fcloud.core.model.Entity;
+import com.fcloud.core.repository.TableOrder;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
+import org.apache.commons.lang.StringUtils;
 
 /**
  * 参展商
@@ -13,6 +13,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * @date 2013-11-18
  */
 @DatabaseTable(tableName = "cihezh_czs")
+@TableOrder(10000)
 public class Canzhanshang extends Entity {
 
     @DatabaseField(columnName = "name")//公司名称

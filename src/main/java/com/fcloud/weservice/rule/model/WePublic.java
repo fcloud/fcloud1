@@ -1,6 +1,7 @@
 package com.fcloud.weservice.rule.model;
 
 import com.fcloud.core.model.Entity;
+import com.fcloud.core.repository.TableOrder;
 import com.fcloud.wechat.user.model.User;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -13,6 +14,7 @@ import java.util.Date;
  * @author
  * @version 1.0 2013-11-12
  */
+@TableOrder(1000)
 @DatabaseTable(tableName = "we_public")
 public class WePublic extends Entity {
 

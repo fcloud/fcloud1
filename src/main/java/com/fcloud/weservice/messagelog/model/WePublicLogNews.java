@@ -1,6 +1,7 @@
 package com.fcloud.weservice.messagelog.model;
 
 import com.fcloud.core.model.Entity;
+import com.fcloud.core.repository.TableOrder;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -13,6 +14,7 @@ import java.util.Date;
  * @version 1.0 2013-11-12
  */
 @DatabaseTable(tableName = "we_public_log_news")
+@TableOrder(1000)
 public class WePublicLogNews extends Entity {
 
 	/**

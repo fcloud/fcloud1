@@ -1,6 +1,7 @@
 package com.fcloud.wechat.app.sccn.model;
 
 import com.fcloud.core.model.Entity;
+import com.fcloud.core.repository.TableOrder;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -11,6 +12,7 @@ import com.j256.ormlite.table.DatabaseTable;
  * @date 2013-11-18
  */
 @DatabaseTable(tableName = "sccn_errreport")
+@TableOrder(10001)
 public class ErrReport extends Entity {
 
     @DatabaseField(columnName = "unit")//故障单位

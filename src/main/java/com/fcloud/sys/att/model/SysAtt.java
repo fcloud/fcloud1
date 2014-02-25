@@ -1,12 +1,14 @@
 package com.fcloud.sys.att.model;
 
-import java.util.Date;
-
 import com.fcloud.core.model.Entity;
+import com.fcloud.core.repository.TableOrder;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
+import java.util.Date;
+
 @DatabaseTable(tableName = "sys_att")
+@TableOrder(28)
 public class SysAtt extends Entity {
 	@DatabaseField(columnName = "pic_url")
 	private String picUrl;

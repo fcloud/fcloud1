@@ -4,6 +4,7 @@
 package com.fcloud.wechat.auth.model;
 
 import com.fcloud.core.model.Persistable;
+import com.fcloud.core.repository.TableOrder;
 import com.fcloud.wechat.user.model.User;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
@@ -14,6 +15,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @SuppressWarnings("serial")
 @DatabaseTable(tableName = "we_auth_module_access_map")
+@TableOrder(19)
 public class ModuleAccessMapping implements Persistable {
 	
 	public static final String buildId(User user, ModuleAccess ma) {

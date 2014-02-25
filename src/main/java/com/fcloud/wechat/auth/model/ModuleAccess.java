@@ -4,6 +4,7 @@
 package com.fcloud.wechat.auth.model;
 
 import com.fcloud.core.model.Entity;
+import com.fcloud.core.repository.TableOrder;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -13,6 +14,7 @@ import com.j256.ormlite.table.DatabaseTable;
  */
 @SuppressWarnings("serial")
 @DatabaseTable(tableName = "we_auth_module_access")
+@TableOrder(18)
 public class ModuleAccess extends Entity {
 	
     @DatabaseField(columnName = "name", width = 500)

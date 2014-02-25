@@ -2,6 +2,7 @@ package com.fcloud.weservice.rule.model;
 
 
 import com.fcloud.core.model.Entity;
+import com.fcloud.core.repository.TableOrder;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -14,6 +15,7 @@ import java.util.Date;
  * @version 1.0 2013-11-12
  */
 @DatabaseTable(tableName = "we_menu")
+@TableOrder(1001)
 public class WeMenu extends Entity {
 
     /**
@@ -79,7 +81,7 @@ public class WeMenu extends Entity {
     /**
      * 相关公众号
      */
-    @DatabaseField(foreign = true,columnName = "we_public_id",columnDefinition = "CONSTRAINT FOREIGN KEY ('we_public_id') REFERENCES 'we_public' ('id')")
+    @DatabaseField(foreign = true,columnName = "we_public_id")
     protected WePublic fdWePublic;
 
     /**
