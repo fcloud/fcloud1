@@ -69,7 +69,11 @@ public class TableCreator {
     private void doDrop() throws SQLException {
         for (Class<?> clz : createTables) {
             logger.info("drop class table :" + clz);
-            TableUtils.dropTable(connectionSource, clz, true);
+            try {
+                TableUtils.dropTable(connectionSource, clz, true);
+            } catch (Exception e) {
+                logger.error("drop class table :" + clz, e);
+            }
         }
     }
 
