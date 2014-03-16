@@ -187,7 +187,14 @@
             <artifactId>xstream</artifactId>
             <version>1.4.5</version>
         </dependency>
-
+		
+		<!-- 引入阿里云存储依赖jar -->
+		<dependency>
+			<groupId>com.alibaba.appengine</groupId>
+			<artifactId>services-api</artifactId>
+			<version>1.0.1</version>
+			<scope>provided</scope>
+		</dependency>
 
     </dependencies>
     
