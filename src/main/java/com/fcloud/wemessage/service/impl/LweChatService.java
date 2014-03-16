@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fcloud.wemessage.messageType.ReqBaseMessage;
+import com.fcloud.wemessage.util.MessageConstant;
 import com.fcloud.weservice.rule.model.WePublic;
 import com.fcloud.weservice.rule.repository.WePublicRepository;
 
@@ -37,7 +38,16 @@ public class LweChatService {
 				logger.error("===LweChatService error,该id无公众号记录===");
 				return null;
 			}
-			respMessage = wePublicRepository.sendMessage(wePublic, rbMessage,rootPath);
+			//判断消息类型
+			String mesType = rbMessage.getMsgType();
+			//事件消息
+			if(MessageConstant.REQ_MESSAGE_TYPE_EVENT.equals(mesType)){
+				respMessage = wePublicRepository.sendEventMessage(wePublic, rbMessage,rootPath);	
+			}
+			//文本消息
+			if(MessageConstant.REQ_MESSAGE_TYPE_TEXT.equals(mesType)){
+				respMessage = wePublicRepository.sendMessage(wePublic, rbMessage,rootPath);
+			}
 		} catch (Exception e) {
 			logger.error(e);
 		}

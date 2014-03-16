@@ -68,9 +68,9 @@ public class WeRuleReplyPictextsController extends
 		JSONObject infos = new JSONObject();
 		try {
 			String pathUrl = fcloudhost;
-    		if(request.getLocalPort() != 80){
-    			pathUrl = StringUtil.linkString(pathUrl, ":", String.valueOf(request.getLocalPort()));
-    		}
+//    		if(request.getLocalPort() != 80){
+//    			pathUrl = StringUtil.linkString(pathUrl, ":", String.valueOf(request.getLocalPort()));
+//    		}
     		pathUrl = StringUtil.linkString(pathUrl, "/", request.getContextPath());
     		pathUrl = pathUrl+"/sys/att/showPic?";
 			if("1".equals(type)){

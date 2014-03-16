@@ -76,11 +76,11 @@ public class CoreController implements ApplicationContextAware{
 			//通知
 			applicationContext.publishEvent(new WeUserLogMessageEvent(this,rbMessage));
 			String pathUrl = fcloudhost;
-    		if(request.getLocalPort() != 80){
-    			pathUrl = StringUtil.linkString(pathUrl, ":", String.valueOf(request.getLocalPort()));
-    		}
+//    		if(request.getLocalPort() != 80){
+//    			pathUrl = StringUtil.linkString(pathUrl, ":", String.valueOf(request.getLocalPort()));
+//    		}
     		pathUrl = StringUtil.linkString(pathUrl, "/", request.getContextPath());
-    		pathUrl = pathUrl+"/upload";
+    		pathUrl = pathUrl+"/sys/att/showPic?";
 			// 调用核心业务类接收消息、处理消息
 			String respMessage = lweChatService.processRequest(rbMessage,id,pathUrl);
 			// 响应消息

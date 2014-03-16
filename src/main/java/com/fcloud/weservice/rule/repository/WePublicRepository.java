@@ -19,8 +19,10 @@ import com.fcloud.wechat.user.model.User;
 import com.fcloud.wechat.user.repository.UserRepository;
 import com.fcloud.wemessage.messageType.ReqBaseMessage;
 import com.fcloud.wemessage.messageType.req.TextMessage;
+import com.fcloud.wemessage.messageType.req.event.ReqBaseEvent;
 import com.fcloud.wemessage.messageType.resp.Article;
 import com.fcloud.wemessage.messageType.resp.GraphicMessage;
+import com.fcloud.wemessage.util.MessageConstant;
 import com.fcloud.weservice.rule.model.WePublic;
 import com.fcloud.weservice.rule.model.WeRuleReply;
 import com.fcloud.weservice.rule.model.WeRuleReplyDefault;
@@ -69,7 +71,57 @@ public class WePublicRepository extends SimpleRepository<WePublic> {
 	}
 
 	/**
-	 * 微信消息反馈
+	 * 微信事件消息反馈
+	 * 
+	 * @return
+	 * @author：lizh
+	 */
+	public String sendEventMessage(WePublic wePublic, ReqBaseMessage rbMessage,
+			String rootPath) {
+		String mess = "";
+		try {
+			//判断事件类型
+			ReqBaseEvent reqBaseEvent = (ReqBaseEvent)rbMessage;
+			String event = reqBaseEvent.getEvent();
+			String messageType = null;
+			if(MessageConstant.EVENT_TYPE_SUBSCRIBE.endsWith(event)){
+				messageType = "1";
+			}
+			if(MessageConstant.EVENT_TYPE_UNSUBSCRIBE.endsWith(event)){
+				messageType = "2";
+			}
+			// 默认规则
+			WeRuleReplyDefault ruleReplyDefault = weRuleReplyDefaultRepository
+					.findDefaultByPublic(wePublic,messageType);
+			if(ruleReplyDefault != null){
+				TextMessage textMessage = createTextMsByReqBaseMessage(rbMessage);
+				if ("1".equals(ruleReplyDefault.getFdRuleType().toString())) {
+					if (StringUtil.isNotNull(ruleReplyDefault.getFdRuleJson())) {
+						mess = getTextMsg(ruleReplyDefault.getFdRuleJson(),
+								textMessage);
+					}
+				} else if ("2".equals(ruleReplyDefault.getFdRuleType().toString())) {
+					WeRuleReplyPictext pictext = weRuleReplyPictextRepository
+							.findOne(ruleReplyDefault.getFdRuleJson());
+					if (pictext != null) {
+						mess = getPictextMsg(pictext, textMessage, rootPath);
+					}
+				} else {
+					WeRuleReplyPictexts pictexts = weRuleReplyPictextsRepository
+							.findOne(ruleReplyDefault.getFdRuleJson());
+					mess = getPictextsMsg(pictexts, textMessage, rootPath);
+				}
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return mess;
+	}
+
+	/**
+	 * 微信文本消息反馈
 	 * 
 	 * @return
 	 * @author：lizh
@@ -93,7 +145,7 @@ public class WePublicRepository extends SimpleRepository<WePublic> {
 				}
 			} else {// 默认规则
 				WeRuleReplyDefault ruleReplyDefault = weRuleReplyDefaultRepository
-						.findDefaultByPublic(wePublic);
+						.findDefaultByPublic(wePublic,"3");
 				if ("1".equals(ruleReplyDefault.getFdRuleType().toString())) {
 					if (StringUtil.isNotNull(ruleReplyDefault.getFdRuleJson())) {
 						mess = getTextMsg(ruleReplyDefault.getFdRuleJson(),
@@ -192,7 +244,8 @@ public class WePublicRepository extends SimpleRepository<WePublic> {
 			article.setTitle(replyPicText.getFdTitle());
 			article.setDescription(replyPicText.getFdSummary());
 			if (StringUtil.isNotNull(replyPicText.getFdPic())) {
-				article.setPicUrl(rootPath + replyPicText.getFdPic());
+				article.setPicUrl(rootPath + "file_id="
+						+ replyPicText.getAttId());
 			}
 			article.setUrl(replyPicText.getFdUrl());
 			articleList.add(article);
@@ -240,7 +293,8 @@ public class WePublicRepository extends SimpleRepository<WePublic> {
 					Article article = new Article();
 					article.setTitle(picTextson.getFdTitle());
 					if (StringUtil.isNotNull(picTextson.getFdPic())) {
-						article.setPicUrl(rootPath + picTextson.getFdPic());
+						article.setPicUrl(rootPath + "file_id="
+								+ picTextson.getAttId());
 					}
 					article.setUrl(picTextson.getFdUrl());
 					articleList.add(article);
@@ -276,5 +330,14 @@ public class WePublicRepository extends SimpleRepository<WePublic> {
 
 		}
 		return mess;
+	}
+	
+	private TextMessage createTextMsByReqBaseMessage(ReqBaseMessage reqBaseMessage){
+		TextMessage textMessage = new TextMessage();
+		textMessage.setFromUserName(reqBaseMessage.getFromUserName());
+		textMessage.setToUserName(reqBaseMessage.getToUserName());
+		textMessage.setMsgId(reqBaseMessage.getMsgId());
+		textMessage.setMsgType(reqBaseMessage.getMsgType());
+		return textMessage;
 	}
 }

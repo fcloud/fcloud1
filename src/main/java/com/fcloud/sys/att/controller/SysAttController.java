@@ -1,6 +1,7 @@
 package com.fcloud.sys.att.controller;
 
 import java.io.BufferedOutputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -25,6 +26,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.appengine.api.store.StoreService;
+import com.alibaba.appengine.api.store.StoreServiceFactory;
 import com.fcloud.core.controller.ActionController;
 import com.fcloud.sys.att.model.SysAtt;
 import com.fcloud.sys.att.repository.SysAttRepository;
@@ -52,6 +55,96 @@ public class SysAttController extends
 
 	@RequestMapping("/fileUpload")
 	public ModelAndView fileUpload(HttpServletRequest request,
+			HttpServletResponse response) {
+		response.setContentType("text/html;charset=UTF-8");
+		response.setCharacterEncoding("UTF-8");
+		PrintWriter out = null;
+		try {
+			out = response.getWriter();
+			CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver(
+					request.getSession().getServletContext());
+			if (multipartResolver.isMultipart(request)) {
+				MultipartHttpServletRequest multiRequest = (MultipartHttpServletRequest) request;
+
+				Iterator<String> iter = multiRequest.getFileNames();
+				String fileSaveName = "";
+				MultipartFile myfile = null;
+				if (iter.hasNext()) {
+					myfile = multiRequest.getFile((String) iter.next());
+					if (myfile.isEmpty()) {
+						out.print("附件不能为空");
+						out.flush();
+						return null;
+					} else {
+						String originalFilename = myfile.getOriginalFilename();
+						try {
+							// 重新上传新的图片
+							StoreService storeService = StoreServiceFactory.getStoreService();
+							SysAtt sysAtt = null;
+							if (request.getParameter("fileId").toString()
+									.endsWith("false")) {
+								sysAtt = new SysAtt();
+								String id = IdGenerator.newId();
+								sysAtt.setId(id);
+							} else {
+								sysAtt = getRepository().findOne(
+										request.getParameter("fileId"));
+								if (sysAtt == null) {
+									sysAtt = new SysAtt();
+									String id = IdGenerator.newId();
+									sysAtt.setId(id);
+								} else {
+									System.out.println(sysAtt.getFileUrl());
+									String delPath = sysAtt.getFileUrl();
+									storeService.deleteFile(delPath);
+								}
+							}
+							String datefilePath = DateUtil.convertDateToString(
+									"yyyyMMdd", new Date());
+							byte[] fileBytes= input2byte(myfile.getInputStream());
+							String path =  "fcloudtest/"+datefilePath+"/"+sysAtt.getId();
+							storeService.saveBinaryFile(fileBytes,path);
+							
+							
+							sysAtt.setFileName(originalFilename);
+							sysAtt.setFileUrl(path);
+							sysAtt.setPicUrl(path);
+
+							getRepository().save(sysAtt);
+							JSONObject result = new JSONObject();
+							result.put("attId", sysAtt.getId());
+							String pathUrl = fcloudhost;
+//							if (request.getLocalPort() != 80) {
+//								pathUrl = StringUtil.linkString(pathUrl, ":",
+//										String.valueOf(request.getLocalPort()));
+//							}
+							pathUrl = StringUtil.linkString(pathUrl, "/",
+									request.getContextPath());
+							result.put("picUrl", pathUrl +"/sys/att/showPic?file_id="+sysAtt.getId());
+							// 返回相关请求的信息
+							out.print(result.toString());
+						} catch (Exception e) {
+							System.out.println("文件" + originalFilename
+									+ "]上传错误");
+							e.printStackTrace();
+							out.print("1上传错误");
+							return null;
+						}
+					}
+				}
+
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			out.flush();
+			out.close();
+		}
+		return null;
+	}
+	
+	@RequestMapping("/fileUpload1")
+	public ModelAndView fileUpload1(HttpServletRequest request,
 			HttpServletResponse response) {
 		response.setContentType("text/html;charset=UTF-8");
 		response.setCharacterEncoding("UTF-8");
@@ -217,17 +310,12 @@ public class SysAttController extends
 			if (StringUtil.isNotNull(attId)) {
 				SysAtt sysAtt = getRepository().findOne(attId);
 				if (sysAtt != null) {
-					File file = new File(sysAtt.getFileUrl());
-					if (file.exists()) {
-						InputStream in = new FileInputStream(file);
+					StoreService storeService = StoreServiceFactory.getStoreService();
+					if (storeService.isFileExist(sysAtt.getFileUrl())) {
 						out = new BufferedOutputStream(
 								response.getOutputStream());
-						byte b[] = new byte[1024];
-						int len = in.read(b);
-						while (len > 0) {
-							out.write(b, 0, len);
-							len = in.read(b);
-						}
+						byte b[] = storeService.getBinaryFile(sysAtt.getFileUrl());
+						out.write(b);
 					}
 				}
 			}
@@ -244,4 +332,17 @@ public class SysAttController extends
 		}
 		return null;
 	}
+	
+	public byte[] input2byte(InputStream inStream)  
+            throws IOException {  
+        ByteArrayOutputStream swapStream = new ByteArrayOutputStream();  
+        byte[] buff = new byte[100];  
+        int rc = 0;  
+        while ((rc = inStream.read(buff, 0, 100)) > 0) {  
+            swapStream.write(buff, 0, rc);  
+        }  
+        byte[] in2b = swapStream.toByteArray();  
+        return in2b;  
+    }  
+  
 }
