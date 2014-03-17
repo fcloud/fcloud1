@@ -44,7 +44,7 @@
 			                </td>
 			            </tr>
 			            <tr>
-			                <td>默认取消关注回复：</td>
+			                <td>默认无匹配回复：</td>
 			                <td>
 			                    <select id="default_type2" onchange="setDiv('2');">
 			                        <option value="1">文本</option>
@@ -67,31 +67,8 @@
 			                </td>
 			            </tr>
 			            <tr>
-			                <td>默认无匹配回复：</td>
-			                <td>
-			                    <select id="default_type3" onchange="setDiv('3');">
-			                        <option value="1">文本</option>
-			                        <option value="2">单图文</option>
-			                        <option value="3">多图文</option>
-			                    </select>
-			                </td>
-			                <td>
-			                	<div id="div_text3">
-			                    	<textarea id="default_text3" style="width: 100%"></textarea>
-			                	</div>
-			                	<div id="div_pic3" style="display:none">
-			                		<select id="default_text3">
-				                    </select>
-			                	</div>
-			                </td>
-			                <td>
-			                    <input type="checkbox" id="default_use3"/>
-			                    <input type="hidden" id="default_id3"/>
-			                </td>
-			            </tr>
-			            <tr>
 			                <td colspan="4">
-			                    <input type="submit" value="保存" onclick="setInfos();"/>
+			                    <input type="submit" value="保存" class="btn btn-info navbar-btn" onclick="setInfos();"/>
 			                </td>
 			            </tr>
 					</table>
@@ -139,20 +116,6 @@
             $("#default_use2").attr("checked", true);
         }
 
-        $("#default_id3").val(areaInfo.default_id3);
-        $("#default_type3").val(areaInfo.default_type3);
-        if(areaInfo.default_type3 != 1){
-        	$("#div_text3").hide();
-        	$("#div_pic3").show();
-        	setPicInfo("3",areaInfo.default_text3);
-        }else{
-        	$("#default_text3",$("#div_text3")).val(areaInfo.default_text3);	
-        }
-        $("#default_text3").val(areaInfo.default_text3);
-        if (areaInfo.default_use3 == 1) {
-            $("#default_use3").attr("checked", true);
-        }
-
     }
     function setInfos() {
         var default_id1 = $("#default_id1").val();
@@ -181,20 +144,7 @@
         if ($("#default_use2").is(":checked") == true) {
             default_use2 = 1;
         }
-
-        var default_id3 = $("#default_id3").val();
-        var default_type3 = $("#default_type3").val();
-        var default_text3 = null;
-        if(default_type3 == "1"){
-        	default_text3 = $("#default_text3",$("#div_text3")).val();
-        }else{
-        	default_text3 = $("#default_text3",$("#div_pic3")).val();
-        }
-        var default_use3 = 0;
-        if ($("#default_use3").is(":checked") == true) {
-            default_use3 = 1;
-        }
-        var defInfo = {default_id2: default_id2, default_id1: default_id1, default_id3: default_id3, default_type1: default_type1, default_text1: default_text1, default_use1: default_use1, default_type2: default_type2, default_text2: default_text2, default_use2: default_use2, default_type3: default_type3, default_text3: default_text3, default_use3: default_use3};
+        var defInfo = {default_id2: default_id2, default_id1: default_id1, default_type1: default_type1, default_text1: default_text1, default_use1: default_use1, default_type2: default_type2, default_text2: default_text2, default_use2: default_use2};
         $("#fdArea").attr("value", JSON.stringify(defInfo));
     }
     

@@ -133,8 +133,6 @@ public class WeRuleReplyController extends ActionController<WeRuleReply, WeRuleR
         if(ruleReply != null){
             try {
                 int ruleType = ruleReply.getFdReplyType();
-                //删除子
-                delChild(ruleType,ruleReply.getId());
                 //删除父
                 getRepository().delete(ruleReply);
             } catch (Exception e) {

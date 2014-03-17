@@ -21,7 +21,7 @@ public class WeRuleReplyDefaultRepository extends SimpleRepository<WeRuleReplyDe
     public WeRuleReplyDefault findDefaultByPublic(WePublic wePublic,String eventType){
     	WeRuleReplyDefault ruleReplyDefault = null;
     	try {
-        	List<WeRuleReplyDefault> replies = getDao().queryBuilder().where().eq("fd_wepublic", wePublic.getId()).and().eq("fd_type",eventType).query();
+        	List<WeRuleReplyDefault> replies = getDao().queryBuilder().where().eq("fd_wepublic", wePublic.getId()).and().eq("fd_type",Integer.parseInt(eventType)).query();
         	if(replies != null && !replies.isEmpty()){
         		ruleReplyDefault = replies.get(0);
         	}

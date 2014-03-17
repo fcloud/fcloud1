@@ -19,7 +19,7 @@ import com.fcloud.wechat.user.model.User;
 import com.fcloud.wechat.user.repository.UserRepository;
 import com.fcloud.wemessage.messageType.ReqBaseMessage;
 import com.fcloud.wemessage.messageType.req.TextMessage;
-import com.fcloud.wemessage.messageType.req.event.ReqBaseEvent;
+import com.fcloud.wemessage.messageType.req.event.ConcernsAndCancelEvent;
 import com.fcloud.wemessage.messageType.resp.Article;
 import com.fcloud.wemessage.messageType.resp.GraphicMessage;
 import com.fcloud.wemessage.util.MessageConstant;
@@ -81,37 +81,37 @@ public class WePublicRepository extends SimpleRepository<WePublic> {
 		String mess = "";
 		try {
 			//判断事件类型
-			ReqBaseEvent reqBaseEvent = (ReqBaseEvent)rbMessage;
+			ConcernsAndCancelEvent reqBaseEvent = (ConcernsAndCancelEvent)rbMessage;
 			String event = reqBaseEvent.getEvent();
 			String messageType = null;
-			if(MessageConstant.EVENT_TYPE_SUBSCRIBE.endsWith(event)){
+			if(MessageConstant.EVENT_TYPE_SUBSCRIBE.equals(event)){
 				messageType = "1";
-			}
-			if(MessageConstant.EVENT_TYPE_UNSUBSCRIBE.endsWith(event)){
-				messageType = "2";
-			}
-			// 默认规则
-			WeRuleReplyDefault ruleReplyDefault = weRuleReplyDefaultRepository
-					.findDefaultByPublic(wePublic,messageType);
-			if(ruleReplyDefault != null){
-				TextMessage textMessage = createTextMsByReqBaseMessage(rbMessage);
-				if ("1".equals(ruleReplyDefault.getFdRuleType().toString())) {
-					if (StringUtil.isNotNull(ruleReplyDefault.getFdRuleJson())) {
-						mess = getTextMsg(ruleReplyDefault.getFdRuleJson(),
-								textMessage);
+				// 默认规则
+				WeRuleReplyDefault ruleReplyDefault = weRuleReplyDefaultRepository
+						.findDefaultByPublic(wePublic,messageType);
+				if(ruleReplyDefault != null){
+
+					TextMessage textMessage = createTextMsByReqBaseMessage(rbMessage);
+					if ("1".equals(ruleReplyDefault.getFdRuleType().toString())) {
+						if (StringUtil.isNotNull(ruleReplyDefault.getFdRuleJson())) {
+							mess = getTextMsg(ruleReplyDefault.getFdRuleJson(),
+									textMessage);
+						}
+					} else if ("2".equals(ruleReplyDefault.getFdRuleType().toString())) {
+						WeRuleReplyPictext pictext = weRuleReplyPictextRepository
+								.findOne(ruleReplyDefault.getFdRuleJson());
+						if (pictext != null) {
+							mess = getPictextMsg(pictext, textMessage, rootPath);
+						}
+					} else {
+						WeRuleReplyPictexts pictexts = weRuleReplyPictextsRepository
+								.findOne(ruleReplyDefault.getFdRuleJson());
+						mess = getPictextsMsg(pictexts, textMessage, rootPath);
 					}
-				} else if ("2".equals(ruleReplyDefault.getFdRuleType().toString())) {
-					WeRuleReplyPictext pictext = weRuleReplyPictextRepository
-							.findOne(ruleReplyDefault.getFdRuleJson());
-					if (pictext != null) {
-						mess = getPictextMsg(pictext, textMessage, rootPath);
-					}
-				} else {
-					WeRuleReplyPictexts pictexts = weRuleReplyPictextsRepository
-							.findOne(ruleReplyDefault.getFdRuleJson());
-					mess = getPictextsMsg(pictexts, textMessage, rootPath);
+					System.out.println(mess);
 				}
 			}
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -145,7 +145,7 @@ public class WePublicRepository extends SimpleRepository<WePublic> {
 				}
 			} else {// 默认规则
 				WeRuleReplyDefault ruleReplyDefault = weRuleReplyDefaultRepository
-						.findDefaultByPublic(wePublic,"3");
+						.findDefaultByPublic(wePublic,"2");
 				if ("1".equals(ruleReplyDefault.getFdRuleType().toString())) {
 					if (StringUtil.isNotNull(ruleReplyDefault.getFdRuleJson())) {
 						mess = getTextMsg(ruleReplyDefault.getFdRuleJson(),
@@ -337,7 +337,7 @@ public class WePublicRepository extends SimpleRepository<WePublic> {
 		textMessage.setFromUserName(reqBaseMessage.getFromUserName());
 		textMessage.setToUserName(reqBaseMessage.getToUserName());
 		textMessage.setMsgId(reqBaseMessage.getMsgId());
-		textMessage.setMsgType(reqBaseMessage.getMsgType());
+		textMessage.setMsgType(MessageConstant.RESP_MESSAGE_TYPE_TEXT);
 		return textMessage;
 	}
 }

@@ -65,7 +65,7 @@ public class WeRuleReplyDefaultController extends ActionController<WeRuleReplyDe
 
     private void saveDefault(String fdArea,WePublic wePublic){
         JSONObject areaJson = JSONObject.fromObject(fdArea);
-        for(int i = 0; i<3; i++){
+        for(int i = 0; i<2; i++){
             WeRuleReplyDefault weRuleReplyDefault = null;
             if(StringUtils.isEmpty(areaJson.getString("default_id"+(i+1)))){
                 weRuleReplyDefault = new WeRuleReplyDefault();
